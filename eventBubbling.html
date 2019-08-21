@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件冒泡</title>
+</head>
+<style>
+  div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  #child-1 {
+      width: 200px;
+      height: 200px;
+      background: red;
+      margin: 200px auto;
+  }
+  #child-2 {
+      width: 100px;
+      height: 100px;
+      background: blue
+  }
+  #child-3 {
+      width: 50px;
+      height: 50px;
+      background: green
+  }
+  #child-4 {
+      width: 50px;
+      height: 50px;
+      background: slateblue
+  }
+  #child-5 {
+      width: 25px;
+      height: 25px;
+      background: rosybrown
+  }
+  #child-6 {
+      width: 10px;
+      height: 10px;
+      background: lightgreen
+  }
+</style>
+<body>
+    <h2>事件冒泡机制</h2>
+    <h3></h3>    
+    <div id="child-1">
+        <div id="child-2">
+            <div id="child-3"></div>
+            <div id="child-4">
+                <div id="child-5">
+
+                </div>
+                <div id="child-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 获取当前页面中所有的div
+    let domArr = document.querySelectorAll('div')
+    // dom节点数组是伪数组 尽管有长度（length）和下标（index）属性，但是它并不能使用foreach方法
+    domArr = Array.prototype.slice.call(domArr)
+    // 通过循环 给每一个dom节点添加一个click事件
+    domArr.forEach((item, index) => {
+        item.onclick = function () {
+            console.log(`child-${index + 1}`)
+        }
+    })
+    // 所谓事件冒泡就是 以点击事件来说： 从触发事件的这个节点开始，向上冒泡，如果每个父节点都绑定了点击事件 那么就依次触发这些事件 优先触发最底层的事件
+    // 注意 如果触发事件的节点的其中一个父节点有兄弟节点的话 这个兄弟节点上的事件是不会被触发的
+    // 取消冒泡的方法： 
+    function clickDom(event) {
+        let ev = event
+        ev.cancelBubble = true
+    }
+</script>
+</html>

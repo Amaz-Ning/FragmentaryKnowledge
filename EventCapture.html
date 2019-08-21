@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件捕获</title>
+</head>
+<style>
+  div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  #child-1 {
+      width: 200px;
+      height: 200px;
+      background: red;
+      margin: 200px auto;
+  }
+  #child-2 {
+      width: 100px;
+      height: 100px;
+      background: blue
+  }
+  #child-3 {
+      width: 50px;
+      height: 50px;
+      background: green
+  }
+  #child-4 {
+      width: 50px;
+      height: 50px;
+      background: slateblue
+  }
+  #child-5 {
+      width: 25px;
+      height: 25px;
+      background: rosybrown
+  }
+  #child-6 {
+      width: 10px;
+      height: 10px;
+      background: lightgreen
+  }
+</style>
+<body>
+    <h2>事件冒泡机制</h2>
+    <h3></h3>    
+    <div id="child-1">
+        <div id="child-2">
+            <div id="child-3"></div>
+            <div id="child-4">
+                <div id="child-5">
+
+                </div>
+                <div id="child-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 获取当前页面中所有的div
+    let domArr = document.querySelectorAll('div')
+    // dom节点数组是伪数组 尽管有长度（length）和下标（index）属性，但是它并不能使用foreach方法
+    domArr = Array.prototype.slice.call(domArr)
+    // 通过循环 给每一个dom节点添加一个click事件
+    domArr.forEach((item, index) => {
+        item.addEventListener('click', function () {
+            console.log(`child-${index + 1}`)
+        }, true)
+    })
+
+    // on和eventlistener的区别：
+    // 1. on不能重复定义， 如果重复定义的话 最新定义的会把之前定义的覆盖。
+    // 2. on不能决定 以事件冒泡 或 事件捕获的方式触发事件，而addEventlistener可以
+    // addEventlistener的三个参数分别为： 事件 函数 以什么方式触发事件（true：事件捕获， false： 事件冒泡, 默认为false）
+
+
+
+    // 所谓事件捕获就是 以点击事件来说： 与事件冒泡相反 从触发事件的这个节点的 最外层父元素开始，向下捕获，直到找到触发事件的节点 如果每个父节点都绑定了点击事件 那么就依次触发这些事件
+    // 优先执行最外层节点绑定的事件
+    // 注意 如果触发事件的节点的其中一个父节点有兄弟节点的话 这个兄弟节点上的事件是不会被触发的
+    // 取消冒泡的方法： 
+    function clickDom(event) {
+        let ev = event
+        ev.cancelBubble = true
+    }
+</script>
+</html>
