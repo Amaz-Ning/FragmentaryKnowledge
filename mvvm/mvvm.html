@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+                {{message.a}}
+        </div>
+        <ul>
+            <li>
+                    {{message.a}}
+            </li>
+        </ul>
+        <input type="text" v-model="message.a">
+    </div>
+</body>
+<script src="./compile.js"></script>
+<script src="./cue.js"></script>
+<script>
+    let cue = new Cue({
+        el: '#app',
+        data: {
+            message: {
+                a: 'Welcome To The International'
+            }
+        }
+    })
+</script>
+</html>
