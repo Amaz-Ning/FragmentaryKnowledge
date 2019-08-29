@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>手动实现apply</title>
+    </head>
+    <body></body>
+    <script>
+        // 这里我们实现一个简单的apply方法，只提供apply方法最基础的功能：改变this的指向
+        //apply与call的差异为第二个参数为数组
+        //首先给Function添加一个原型方法： myApply,并且传递进来一个对象
+        Function.prototype.myApply = function(obj, arr) {
+            // 首先我们需要获取 myApply这个方法被调用时 传递进来的参数, 除去第一个参数obj
+            let args = arr || [];
+            obj.fn = this;
+            obj.fn(...args);
+            delete obj.fn;
+        };
+        // 接下来验证一下
+        const obj1 = {
+                a: 20,
+                bar: function(a1, a2, a3) {
+                    console.log(this.a);
+                    console.log(a1, a2, a3);
+                }
+            },
+            obj2 = {
+                a: 200
+            };
+        obj1.bar(1, 2, 3); // 20
+        obj1.bar.myApply(obj2, [1, 2, 3]); // 200
+    </script>
+</html>
