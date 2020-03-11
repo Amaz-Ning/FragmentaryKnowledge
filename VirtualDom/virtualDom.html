@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="app"></p>
+</body>
+<script src="./virtualDom.js"></script>
+<script>
+    const dom = createVirtualDom('div', {}, [createVirtualDom('div', {}, '123'), createVirtualDom('div', {}, '123'), createVirtualDom('div', {}, [createVirtualDom('div', {}, '123'),createVirtualDom('div', {}, '123'),createVirtualDom('div', {}, '123')])])
+    const app = document.getElementById('app')
+    render(dom, app)
+</script>
+</html>
