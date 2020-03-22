@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // 订阅者发布者模式
+    class PubSub {
+      constructor() {
+        // 创建一个任务队列 保存所有订阅的事件
+        this.eventQueue = {}
+      }
+      // 订阅方法 主要思想就是把一类事件的回调函数全部放在一个数组中保存
+      // 事件一旦触发 就执行所有订阅了这个事件的函数
+      $on(eventName, callback) {
+        if (!this.eventQueue.hasOwnProperty(eventName)) {
+          this.eventQueue[eventName] = []
+        }
+        if (Object.prototype.toString.call(callback) === '[object Function]') {
+          this.eventQueue[eventName].push(callback)
+        } else {
+          throw Error('回调函数错误')
+        }
+      }
+      // 如果执行的
+      $emit(eventName, args) {
+        if (this.eventQueue.hasOwnProperty(eventName)) {
+          this.eventQueue[eventName].forEach(item => {
+            item.apply(null, args)
+          })
+        }
+      }
+    }
+
+    const p = new PubSub()
+    p.$on('success', function() {
+      console.log(1)
+    })
+    p.$on('success', function() {
+      console.log(2)
+    })
+    p.$on('success', function() {
+      console.log(3)
+    })
+    p.$on('success', function() {
+      console.log(4)
+    })
+    p.$emit('success', [])
+  </script>
+</html>
